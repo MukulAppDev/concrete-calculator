@@ -1,0 +1,36 @@
+---
+// Accessible FAQ accordion using native <details>. The matching FAQPage
+// JSON-LD schema should be passed to BaseLayout via the jsonLd prop.
+interface Props {
+  items: Array<{ q: string; a: string }>
+}
+const { items } = Astro.props
+---
+
+<section class="mx-auto mt-12 w-full max-w-3xl px-4" aria-label="Frequently asked questions">
+  <h2 class="text-2xl font-bold tracking-tight text-balance">Frequently asked questions</h2>
+  <div class="mt-4 flex flex-col gap-2">
+    {
+      items.map((item) => (
+        <details class="group rounded-md border border-border bg-card">
+          <summary class="cursor-pointer list-none px-4 py-3 font-semibold marker:hidden [&::-webkit-details-marker]:hidden flex items-center justify-between gap-2">
+            {item.q}
+            <svg
+              class="shrink-0 transition-transform group-open:rotate-180"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </summary>
+          <p class="px-4 pb-4 text-muted-foreground leading-relaxed">{item.a}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>

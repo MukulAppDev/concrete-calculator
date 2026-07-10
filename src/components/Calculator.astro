@@ -1,0 +1,400 @@
+---
+import ShapeDiagram from './ShapeDiagram.astro'
+
+// The calculator island. Pure vanilla JS, no framework shipped to the client.
+// `defaultShape` pre-selects a tab for SEO landing pages.
+interface Props {
+  defaultShape?: 'slab' | 'footing' | 'column' | 'stairs' | 'gravel'
+}
+const { defaultShape = 'slab' } = Astro.props
+
+const shapes = [
+  { id: 'slab', label: 'Slab' },
+  { id: 'footing', label: 'Footing' },
+  { id: 'column', label: 'Column' },
+  { id: 'stairs', label: 'Stairs' },
+  { id: 'gravel', label: 'Gravel' },
+] as const
+
+// Field definitions per shape: [id, label, defaultUnit, placeholder]
+const fields: Record<string, Array<{ id: string; label: string; unit: 'ft' | 'in' | 'count'; placeholder: string }>> = {
+  slab: [
+    { id: 'length', label: 'Length', unit: 'ft', placeholder: '10' },
+    { id: 'width', label: 'Width', unit: 'ft', placeholder: '10' },
+    { id: 'thickness', label: 'Thickness', unit: 'in', placeholder: '4' },
+  ],
+  footing: [
+    { id: 'length', label: 'Length', unit: 'ft', placeholder: '20' },
+    { id: 'width', label: 'Width', unit: 'in', placeholder: '16' },
+    { id: 'depth', label: 'Depth', unit: 'in', placeholder: '8' },
+  ],
+  column: [
+    { id: 'diameter', label: 'Diameter', unit: 'in', placeholder: '12' },
+    { id: 'height', label: 'Height', unit: 'ft', placeholder: '4' },
+    { id: 'quantity', label: 'Quantity', unit: 'count', placeholder: '1' },
+  ],
+  stairs: [
+    { id: 'width', label: 'Width', unit: 'ft', placeholder: '4' },
+    { id: 'rise', label: 'Rise (per step)', unit: 'in', placeholder: '7' },
+    { id: 'run', label: 'Run (tread depth)', unit: 'in', placeholder: '11' },
+    { id: 'steps', label: 'Number of steps', unit: 'count', placeholder: '3' },
+  ],
+  gravel: [
+    { id: 'length', label: 'Length', unit: 'ft', placeholder: '10' },
+    { id: 'width', label: 'Width', unit: 'ft', placeholder: '10' },
+    { id: 'depth', label: 'Depth', unit: 'in', placeholder: '4' },
+  ],
+}
+---
+
+<section id="calculator" class="mx-auto w-full max-w-5xl px-4" aria-label="Concrete and gravel calculator">
+  <div class="grid gap-4 lg:grid-cols-[1fr_360px]">
+    <!-- Inputs card -->
+    <div class="rounded-lg border border-border bg-card p-4 md:p-6">
+      <!-- Shape tabs -->
+      <div role="tablist" aria-label="Shape" class="flex flex-wrap gap-1.5">
+        {
+          shapes.map((s) => (
+            <button
+              type="button"
+              role="tab"
+              id={`tab-${s.id}`}
+              aria-selected={s.id === defaultShape ? 'true' : 'false'}
+              aria-controls={`panel-${s.id}`}
+              data-shape-tab={s.id}
+              class={`rounded-md px-4 py-2.5 text-sm font-semibold transition-colors ${
+                s.id === defaultShape
+                  ? 'bg-accent text-accent-foreground'
+                  : 'bg-muted text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {s.label}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        shapes.map((s) => (
+          <div
+            role="tabpanel"
+            id={`panel-${s.id}`}
+            aria-labelledby={`tab-${s.id}`}
+            data-shape-panel={s.id}
+            class={s.id === defaultShape ? 'mt-5' : 'mt-5 hidden'}
+          >
+            <div class="flex flex-col gap-5 sm:flex-row sm:items-start">
+              <div class="flex shrink-0 justify-center text-muted-foreground sm:w-[220px]">
+                <ShapeDiagram shape={s.id} />
+              </div>
+              <div class="grid flex-1 gap-3 sm:grid-cols-2">
+                {fields[s.id].map((f) => (
+                  <div class="flex flex-col gap-1">
+                    <label for={`${s.id}-${f.id}`} class="text-sm font-medium">
+                      {f.label}
+                    </label>
+                    <div class="flex rounded-md border border-border bg-background focus-within:ring-2 focus-within:ring-primary">
+                      <input
+                        type="number"
+                        inputmode="decimal"
+                        min="0"
+                        id={`${s.id}-${f.id}`}
+                        data-field={f.id}
+                        data-shape={s.id}
+                        placeholder={f.placeholder}
+                        class="w-full min-w-0 rounded-md bg-transparent px-3 py-2.5 text-base outline-none"
+                      />
+                      {f.unit !== 'count' ? (
+                        <select
+                          data-unit-for={`${s.id}-${f.id}`}
+                          aria-label={`Unit for ${f.label}`}
+                          class="rounded-r-md border-l border-border bg-muted px-2 text-sm font-medium text-muted-foreground outline-none"
+                        >
+                          <option value="ft" selected={f.unit === 'ft'}>
+                            ft
+                          </option>
+                          <option value="in" selected={f.unit === 'in'}>
+                            in
+                          </option>
+                        </select>
+                      ) : (
+                        <span class="flex items-center rounded-r-md border-l border-border bg-muted px-2 text-sm text-muted-foreground">
+                          qty
+                        </span>
+                      )}
+                    </div>
+                    <p data-error-for={`${s.id}-${f.id}`} class="hidden text-xs text-primary" role="alert" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+
+      <!-- Waste factor -->
+      <div class="mt-6 border-t border-border pt-5">
+        <div class="flex items-center justify-between">
+          <label for="waste" class="text-sm font-medium">Waste factor</label>
+          <span id="waste-value" class="rounded-md bg-muted px-2 py-0.5 text-sm font-semibold">10%</span>
+        </div>
+        <input
+          type="range"
+          id="waste"
+          min="0"
+          max="15"
+          step="1"
+          value="10"
+          class="mt-2 w-full accent-[var(--color-primary)]"
+          aria-describedby="waste-help"
+        />
+        <p id="waste-help" class="mt-1 text-xs text-muted-foreground">
+          Extra material for spillage and uneven subgrade. 10% is typical for DIY pours.
+        </p>
+      </div>
+
+      <!-- Prices -->
+      <div class="mt-5 grid gap-3 border-t border-border pt-5 sm:grid-cols-3">
+        <div class="flex flex-col gap-1">
+          <label for="price-80" class="text-sm font-medium">80 lb bag price</label>
+          <div class="flex rounded-md border border-border bg-background focus-within:ring-2 focus-within:ring-primary">
+            <span class="flex items-center rounded-l-md border-r border-border bg-muted px-2 text-sm text-muted-foreground">$</span>
+            <input type="number" inputmode="decimal" min="0" step="0.25" id="price-80" value="6.50" class="w-full min-w-0 rounded-md bg-transparent px-3 py-2.5 text-base outline-none" />
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="price-60" class="text-sm font-medium">60 lb bag price</label>
+          <div class="flex rounded-md border border-border bg-background focus-within:ring-2 focus-within:ring-primary">
+            <span class="flex items-center rounded-l-md border-r border-border bg-muted px-2 text-sm text-muted-foreground">$</span>
+            <input type="number" inputmode="decimal" min="0" step="0.25" id="price-60" value="5.50" class="w-full min-w-0 rounded-md bg-transparent px-3 py-2.5 text-base outline-none" />
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label for="price-gravel" class="text-sm font-medium">Gravel per ton</label>
+          <div class="flex rounded-md border border-border bg-background focus-within:ring-2 focus-within:ring-primary">
+            <span class="flex items-center rounded-l-md border-r border-border bg-muted px-2 text-sm text-muted-foreground">$</span>
+            <input type="number" inputmode="decimal" min="0" step="1" id="price-gravel" value="45" class="w-full min-w-0 rounded-md bg-transparent px-3 py-2.5 text-base outline-none" />
+          </div>
+        </div>
+      </div>
+      <p class="mt-2 text-xs text-muted-foreground">Typical US prices pre-filled — edit to match your local store.</p>
+
+      <p id="sanity-warning" class="mt-4 hidden rounded-md border border-primary/40 bg-primary/10 p-3 text-sm" role="alert"></p>
+    </div>
+
+    <!-- Results card -->
+    <div class="flex flex-col gap-4">
+      <div class="rounded-lg bg-accent p-5 text-accent-foreground">
+        <h2 class="text-sm font-semibold uppercase tracking-wider opacity-70">You need</h2>
+        <p class="mt-1 flex items-baseline gap-2">
+          <span id="result-yards" class="font-mono text-5xl font-bold tabular-nums">0</span>
+          <span class="text-lg font-medium opacity-80">cubic yards</span>
+        </p>
+        <p class="mt-1 text-sm opacity-70">
+          <span id="result-feet" class="font-semibold tabular-nums">0</span> cubic feet
+          <span id="result-waste-note"> (incl. 10% waste)</span>
+        </p>
+      </div>
+
+      <div id="concrete-results" class="rounded-lg border border-border bg-card p-5">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Bagged concrete</h2>
+        <dl class="mt-3 flex flex-col gap-3">
+          <div class="flex items-baseline justify-between gap-2">
+            <dt class="text-sm">80 lb bags</dt>
+            <dd class="text-right">
+              <span id="result-bags-80" class="font-mono text-2xl font-bold tabular-nums">0</span>
+              <span id="result-cost-80" class="block text-sm text-muted-foreground">≈ $0</span>
+            </dd>
+          </div>
+          <div class="flex items-baseline justify-between gap-2 border-t border-border pt-3">
+            <dt class="text-sm">60 lb bags</dt>
+            <dd class="text-right">
+              <span id="result-bags-60" class="font-mono text-2xl font-bold tabular-nums">0</span>
+              <span id="result-cost-60" class="block text-sm text-muted-foreground">≈ $0</span>
+            </dd>
+          </div>
+        </dl>
+        <p class="mt-3 text-xs text-muted-foreground">
+          Yield: 80 lb ≈ 0.60 ft³, 60 lb ≈ 0.45 ft³. For pours over ~1 yd³, ready-mix delivery is usually cheaper.
+        </p>
+      </div>
+
+      <div id="gravel-results" class="hidden rounded-lg border border-border bg-card p-5">
+        <h2 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground">Gravel</h2>
+        <dl class="mt-3">
+          <div class="flex items-baseline justify-between gap-2">
+            <dt class="text-sm">Tons (approx.)</dt>
+            <dd class="text-right">
+              <span id="result-tons" class="font-mono text-2xl font-bold tabular-nums">0</span>
+              <span id="result-cost-gravel" class="block text-sm text-muted-foreground">≈ $0</span>
+            </dd>
+          </div>
+        </dl>
+        <p class="mt-3 text-xs text-muted-foreground">Assumes ≈ 1.4 tons per cubic yard for compacted crushed stone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import {
+    toFeet,
+    slabVolume,
+    footingVolume,
+    columnVolume,
+    stairsVolume,
+    gravelVolume,
+    withWaste,
+    cubicFeetToYards,
+    bags60,
+    bags80,
+    gravelTons,
+    fmt,
+    fmtCurrency,
+    parseDim,
+  } from '../scripts/calc.js'
+
+  const root = document.getElementById('calculator')!
+  let activeShape =
+    document.querySelector<HTMLButtonElement>('[data-shape-tab][aria-selected="true"]')?.dataset.shapeTab || 'slab'
+
+  const $ = (id: string) => document.getElementById(id)
+
+  // --- Tab switching ---
+  root.querySelectorAll<HTMLButtonElement>('[data-shape-tab]').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      activeShape = tab.dataset.shapeTab!
+      root.querySelectorAll<HTMLButtonElement>('[data-shape-tab]').forEach((t) => {
+        const selected = t === tab
+        t.setAttribute('aria-selected', String(selected))
+        t.className = `rounded-md px-4 py-2.5 text-sm font-semibold transition-colors ${
+          selected ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground hover:text-foreground'
+        }`
+      })
+      root.querySelectorAll<HTMLElement>('[data-shape-panel]').forEach((p) => {
+        p.classList.toggle('hidden', p.dataset.shapePanel !== activeShape)
+      })
+      recalc()
+    })
+  })
+
+  // --- Read a field value in feet (or raw count) ---
+  function readField(shape: string, fieldId: string): { ok: boolean; feet: number; error: string | null; rawUnit: string } {
+    const input = document.getElementById(`${shape}-${fieldId}`) as HTMLInputElement | null
+    if (!input) return { ok: false, feet: 0, error: null, rawUnit: 'ft' }
+    const unitSel = document.querySelector<HTMLSelectElement>(`[data-unit-for="${shape}-${fieldId}"]`)
+    const unit = unitSel?.value || 'count'
+    const parsed = parseDim(input.value)
+    const errEl = document.querySelector<HTMLElement>(`[data-error-for="${shape}-${fieldId}"]`)
+    if (errEl) {
+      errEl.textContent = parsed.error || ''
+      errEl.classList.toggle('hidden', !parsed.error)
+    }
+    if (!parsed.ok) return { ok: false, feet: 0, error: parsed.error, rawUnit: unit }
+    const feet = unit === 'count' ? parsed.value : toFeet(parsed.value, unit)
+    return { ok: true, feet, error: null, rawUnit: unit }
+  }
+
+  function computeVolume(): { ft3: number; ready: boolean; warning: string | null } {
+    let ft3 = 0
+    let ready = false
+    let warning: string | null = null
+
+    if (activeShape === 'slab') {
+      const l = readField('slab', 'length')
+      const w = readField('slab', 'width')
+      const t = readField('slab', 'thickness')
+      ready = l.ok && w.ok && t.ok
+      if (ready) {
+        ft3 = slabVolume(l.feet, w.feet, t.feet)
+        if (t.rawUnit === 'ft' && t.feet > 2) warning = 'Thickness over 2 ft — did you mean inches?'
+      }
+    } else if (activeShape === 'footing') {
+      const l = readField('footing', 'length')
+      const w = readField('footing', 'width')
+      const d = readField('footing', 'depth')
+      ready = l.ok && w.ok && d.ok
+      if (ready) ft3 = footingVolume(l.feet, w.feet, d.feet)
+    } else if (activeShape === 'column') {
+      const d = readField('column', 'diameter')
+      const h = readField('column', 'height')
+      const q = readField('column', 'quantity')
+      ready = d.ok && h.ok
+      if (ready) {
+        ft3 = columnVolume(d.feet, h.feet, q.ok ? Math.round(q.feet) : 1)
+        if (d.rawUnit === 'ft' && d.feet > 6) warning = 'Diameter over 6 ft — did you mean inches?'
+      }
+    } else if (activeShape === 'stairs') {
+      const w = readField('stairs', 'width')
+      const r = readField('stairs', 'rise')
+      const run = readField('stairs', 'run')
+      const n = readField('stairs', 'steps')
+      ready = w.ok && r.ok && run.ok && n.ok
+      if (ready) {
+        const steps = Math.round(n.feet)
+        if (steps > 30) {
+          warning = 'More than 30 steps — double-check your step count.'
+        }
+        ft3 = stairsVolume(w.feet, r.feet, run.feet, Math.min(steps, 100))
+      }
+    } else if (activeShape === 'gravel') {
+      const l = readField('gravel', 'length')
+      const w = readField('gravel', 'width')
+      const d = readField('gravel', 'depth')
+      ready = l.ok && w.ok && d.ok
+      if (ready) {
+        ft3 = gravelVolume(l.feet, w.feet, d.feet)
+        if (d.rawUnit === 'ft' && d.feet > 2) warning = 'Depth over 2 ft — did you mean inches?'
+      }
+    }
+
+    if (ready && cubicFeetToYards(ft3) > 500) {
+      warning = 'That is over 500 cubic yards — check your dimensions and units.'
+    }
+    return { ft3, ready, warning }
+  }
+
+  function price(id: string, fallback: number): number {
+    const v = Number((document.getElementById(id) as HTMLInputElement | null)?.value)
+    return isFinite(v) && v > 0 ? v : fallback
+  }
+
+  function recalc() {
+    const waste = Number((document.getElementById('waste') as HTMLInputElement).value)
+    $('waste-value')!.textContent = `${waste}%`
+    $('result-waste-note')!.textContent = ` (incl. ${waste}% waste)`
+
+    const { ft3, ready, warning } = computeVolume()
+    const total = ready ? withWaste(ft3, waste) : 0
+    const yards = cubicFeetToYards(total)
+
+    $('result-yards')!.textContent = ready ? fmt(yards, 2) : '0'
+    $('result-feet')!.textContent = ready ? fmt(total, 1) : '0'
+
+    const isGravel = activeShape === 'gravel'
+    $('concrete-results')!.classList.toggle('hidden', isGravel)
+    $('gravel-results')!.classList.toggle('hidden', !isGravel)
+
+    if (isGravel) {
+      const tons = ready ? gravelTons(total) : 0
+      $('result-tons')!.textContent = fmt(tons, 2)
+      $('result-cost-gravel')!.textContent = `≈ ${fmtCurrency(tons * price('price-gravel', 45))}`
+    } else {
+      const n80 = ready ? bags80(total) : 0
+      const n60 = ready ? bags60(total) : 0
+      $('result-bags-80')!.textContent = fmt(n80, 0)
+      $('result-bags-60')!.textContent = fmt(n60, 0)
+      $('result-cost-80')!.textContent = `≈ ${fmtCurrency(n80 * price('price-80', 6.5))}`
+      $('result-cost-60')!.textContent = `≈ ${fmtCurrency(n60 * price('price-60', 5.5))}`
+    }
+
+    const warnEl = $('sanity-warning')!
+    warnEl.textContent = warning || ''
+    warnEl.classList.toggle('hidden', !warning)
+  }
+
+  // Recalculate on any input change within the calculator
+  root.addEventListener('input', recalc)
+  root.addEventListener('change', recalc)
+  recalc()
+</script>

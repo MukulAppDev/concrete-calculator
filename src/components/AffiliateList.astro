@@ -1,0 +1,36 @@
+---
+// "You'll also need" affiliate link slots. Replace `href` values with your
+// affiliate URLs (e.g. Amazon Associates or Home Depot affiliate links).
+interface Props {
+  items?: Array<{ name: string; note: string; href: string }>
+}
+const defaults = [
+  { name: 'Quikrete 80 lb Concrete Mix', note: 'The standard bag for slabs and footings', href: '#' },
+  { name: 'Portable Cement Mixer', note: 'Worth renting or buying for 20+ bags', href: '#' },
+  { name: 'Magnesium Float & Finishing Trowel', note: 'For a smooth, professional surface', href: '#' },
+  { name: 'Rebar / Wire Remesh', note: 'Reinforcement for slabs over 4 ft wide', href: '#' },
+  { name: 'Concrete Cure & Seal', note: 'Protects the finish for years', href: '#' },
+]
+const { items = defaults } = Astro.props
+---
+
+<section class="mx-auto mt-12 w-full max-w-3xl px-4" aria-label="Recommended supplies">
+  <h2 class="text-2xl font-bold tracking-tight text-balance">You&apos;ll also need</h2>
+  <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+    {
+      items.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            rel="sponsored nofollow"
+            class="flex h-full flex-col gap-0.5 rounded-md border border-border bg-card p-4 hover:border-primary"
+          >
+            <span class="font-semibold">{item.name}</span>
+            <span class="text-sm text-muted-foreground leading-relaxed">{item.note}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="mt-2 text-xs text-muted-foreground">Links may earn us a commission at no extra cost to you.</p>
+</section>

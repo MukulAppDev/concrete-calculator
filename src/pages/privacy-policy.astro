@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const title = 'Privacy Policy — ConcreteCalc'
+const description = 'Privacy policy for ConcreteCalc: what data we collect, how ads and cookies work, and your choices.'
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/privacy-policy">
+  <main class="mx-auto w-full max-w-3xl px-4 pt-8">
+    <h1 class="text-3xl font-extrabold tracking-tight text-balance">Privacy Policy</h1>
+    <p class="mt-2 text-sm text-muted-foreground">Last updated: July 2026</p>
+
+    <div class="mt-6 flex flex-col gap-6 leading-relaxed">
+      <section>
+        <h2 class="text-xl font-bold">What we collect</h2>
+        <p class="mt-2 text-muted-foreground">
+          ConcreteCalc is a static calculator. All calculations happen in your browser — the dimensions and
+          prices you enter are never sent to our servers. We do not require accounts and do not collect
+          personal information directly.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">Advertising and cookies</h2>
+        <p class="mt-2 text-muted-foreground">
+          This site is supported by advertising. Our ad partners (such as Google AdSense) may use cookies and
+          similar technologies to serve ads based on your prior visits to this or other websites. You can opt
+          out of personalized advertising by visiting
+          <a href="https://adssettings.google.com" class="underline hover:text-foreground" rel="noopener noreferrer">Google Ads Settings</a>.
+          Declining cookies via our consent banner limits ads to non-personalized versions.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">Analytics</h2>
+        <p class="mt-2 text-muted-foreground">
+          We may use privacy-respecting analytics to measure page views and improve the site. Analytics data
+          is aggregated and does not identify individual visitors.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">Affiliate links</h2>
+        <p class="mt-2 text-muted-foreground">
+          Some links to products are affiliate links. If you purchase through them we may earn a commission at
+          no additional cost to you. These links are marked and use rel=&quot;sponsored&quot; attributes.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">Local storage</h2>
+        <p class="mt-2 text-muted-foreground">
+          We store two small preferences in your browser&apos;s local storage: your dark/light theme choice and
+          your cookie consent decision. Neither leaves your device.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold">Contact</h2>
+        <p class="mt-2 text-muted-foreground">
+          Questions about this policy? Contact us at privacy@concretecalc.example.com.
+        </p>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

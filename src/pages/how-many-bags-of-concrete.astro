@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Calculator from '../components/Calculator.astro'
+import AdSlot from '../components/AdSlot.astro'
+import Faq from '../components/Faq.astro'
+import AffiliateList from '../components/AffiliateList.astro'
+import { faqSchema, calculatorSchema } from '../scripts/schema.js'
+
+const title = 'How Many Bags of Concrete Do I Need? — 60 lb & 80 lb Bag Calculator'
+const description =
+  'Calculate exactly how many 60 lb or 80 lb bags of concrete you need for your slab, footing, or post holes — with cost estimate. One 80 lb bag yields 0.60 cubic feet.'
+
+const faqItems = [
+  {
+    q: 'How many 80 lb bags of concrete are in a cubic yard?',
+    a: 'About 45 bags. One 80 lb bag yields roughly 0.60 cubic feet, and a cubic yard is 27 cubic feet, so 27 ÷ 0.60 = 45 bags.',
+  },
+  {
+    q: 'How many 60 lb bags of concrete are in a cubic yard?',
+    a: 'About 60 bags. One 60 lb bag yields roughly 0.45 cubic feet, so 27 ÷ 0.45 = 60 bags per cubic yard.',
+  },
+  {
+    q: 'How many bags of concrete do I need for a 10×10 slab?',
+    a: 'A 10 × 10 ft slab at 4 inches thick is 1.23 cubic yards, which is about 56 × 80 lb bags or 74 × 60 lb bags before waste. With 10% waste, plan on roughly 62 × 80 lb bags.',
+  },
+  {
+    q: 'Should I buy 60 lb or 80 lb bags?',
+    a: '80 lb bags are cheaper per cubic foot and mean fewer batches, but they are heavy to lift and mix. 60 lb bags are easier to handle — a good choice if you are working alone or mixing by hand in a wheelbarrow.',
+  },
+  {
+    q: 'How much area does one bag of concrete cover?',
+    a: 'At 4 inches thick, one 80 lb bag covers about 1.8 square feet and one 60 lb bag covers about 1.35 square feet.',
+  },
+]
+
+const jsonLd = [
+  calculatorSchema('Concrete Bag Calculator', description, 'https://concretecalc.example.com/how-many-bags-of-concrete'),
+  faqSchema(faqItems),
+]
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/how-many-bags-of-concrete" jsonLd={jsonLd}>
+  <main>
+    <div class="mx-auto max-w-5xl px-4 pt-8 pb-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-balance md:text-4xl">
+        How Many Bags of Concrete Do I Need?
+      </h1>
+      <p class="mt-2 max-w-2xl text-muted-foreground leading-relaxed text-pretty">
+        Enter your project dimensions below and get an exact 60 lb and 80 lb bag count — rounded up so you
+        never run out mid-pour — plus an estimated cost at your local bag price.
+      </p>
+    </div>
+
+    <Calculator defaultShape="slab" />
+
+    <AdSlot format="leaderboard" />
+
+    <section class="mx-auto mt-8 w-full max-w-3xl px-4">
+      <h2 class="text-2xl font-bold tracking-tight text-balance">Bag yield cheat sheet</h2>
+      <p class="mt-3 text-muted-foreground leading-relaxed">
+        Every bag of pre-mixed concrete lists its yield on the label. The industry standards are:
+      </p>
+      <div class="mt-3 overflow-x-auto">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-border text-left text-muted-foreground">
+              <th scope="col" class="py-2 pr-4 font-semibold">Bag size</th>
+              <th scope="col" class="py-2 pr-4 font-semibold">Yield</th>
+              <th scope="col" class="py-2 pr-4 font-semibold">Bags per yd³</th>
+              <th scope="col" class="py-2 font-semibold">Coverage at 4″</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-border"><td class="py-2 pr-4">40 lb</td><td class="py-2 pr-4">0.30 ft³</td><td class="py-2 pr-4">90</td><td class="py-2">0.9 sq ft</td></tr>
+            <tr class="border-b border-border"><td class="py-2 pr-4">60 lb</td><td class="py-2 pr-4">0.45 ft³</td><td class="py-2 pr-4">60</td><td class="py-2">1.35 sq ft</td></tr>
+            <tr><td class="py-2 pr-4">80 lb</td><td class="py-2 pr-4">0.60 ft³</td><td class="py-2 pr-4">45</td><td class="py-2">1.8 sq ft</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="mt-6 text-lg font-bold">When bags stop making sense</h3>
+      <p class="mt-2 text-muted-foreground leading-relaxed">
+        Mixing 45+ bags by hand is a full day of hard labor. Once your project passes about one cubic yard,
+        call a ready-mix supplier — delivered concrete typically costs $125–$180 per yard and arrives ready to
+        pour. Use the calculator above to get your total in yards first.
+      </p>
+    </section>
+
+    <AffiliateList />
+
+    <AdSlot />
+
+    <Faq items={faqItems} />
+  </main>
+</BaseLayout>

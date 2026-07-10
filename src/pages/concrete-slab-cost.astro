@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Calculator from '../components/Calculator.astro'
+import AdSlot from '../components/AdSlot.astro'
+import Faq from '../components/Faq.astro'
+import AffiliateList from '../components/AffiliateList.astro'
+import { faqSchema, calculatorSchema } from '../scripts/schema.js'
+
+const title = 'Concrete Slab Cost Calculator — DIY Bags vs Ready-Mix Prices'
+const description =
+  'Estimate the cost of a concrete slab: enter dimensions and your local bag price to see DIY material cost instantly, plus typical ready-mix and professional installation prices per square foot.'
+
+const faqItems = [
+  {
+    q: 'How much does a concrete slab cost per square foot?',
+    a: 'Professionally installed, a basic 4-inch slab runs about $6–$12 per square foot including labor, forms, and finishing. DIY with bagged concrete, materials alone are roughly $2.50–$4 per square foot.',
+  },
+  {
+    q: 'How much does a 10×10 concrete slab cost?',
+    a: 'DIY with bags: roughly $360–$450 in concrete (about 62 × 80 lb bags with waste) plus gravel, forms, and reinforcement — typically $500–$700 all-in. Professionally installed: $600–$1,200 depending on your region and site prep.',
+  },
+  {
+    q: 'Is it cheaper to pour concrete yourself?',
+    a: 'Usually yes — DIY materials cost roughly a third to half of a contractor quote. But concrete is unforgiving: you have under an hour of working time once mixed. For slabs larger than about 200 square feet, most DIYers order ready-mix and hire help for the finish.',
+  },
+  {
+    q: 'How much does ready-mix concrete cost per yard?',
+    a: 'Ready-mix typically costs $125–$180 per cubic yard delivered. Most plants have a 1-yard minimum and charge a short-load fee of $50–$100 for orders under 4–5 yards.',
+  },
+  {
+    q: 'What adds to the cost of a slab?',
+    a: 'Thicker pours (5–6 inches), rebar or wire mesh, a compacted gravel base, vapor barriers, decorative finishes (stamping, staining), and difficult access for the truck all add cost. Site grading and excavation can double a quote.',
+  },
+]
+
+const jsonLd = [
+  calculatorSchema('Concrete Slab Cost Calculator', description, 'https://concretecalc.example.com/concrete-slab-cost'),
+  faqSchema(faqItems),
+]
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/concrete-slab-cost" jsonLd={jsonLd}>
+  <main>
+    <div class="mx-auto max-w-5xl px-4 pt-8 pb-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-balance md:text-4xl">Concrete Slab Cost Calculator</h1>
+      <p class="mt-2 max-w-2xl text-muted-foreground leading-relaxed text-pretty">
+        Enter your slab dimensions and local bag price to see your DIY material cost instantly. Then compare
+        against typical ready-mix and professional installation prices below.
+      </p>
+    </div>
+
+    <Calculator defaultShape="slab" />
+
+    <AdSlot format="leaderboard" />
+
+    <section class="mx-auto mt-8 w-full max-w-3xl px-4">
+      <h2 class="text-2xl font-bold tracking-tight text-balance">DIY bags vs ready-mix vs hiring a pro</h2>
+      <div class="mt-4 overflow-x-auto">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-border text-left text-muted-foreground">
+              <th scope="col" class="py-2 pr-4 font-semibold">Option</th>
+              <th scope="col" class="py-2 pr-4 font-semibold">Typical cost</th>
+              <th scope="col" class="py-2 font-semibold">Best for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-border">
+              <td class="py-2 pr-4 font-medium">DIY bagged concrete</td>
+              <td class="py-2 pr-4">$2.50–$4 / sq ft materials</td>
+              <td class="py-2">Small pads, post footings, repairs under ~1 yd³</td>
+            </tr>
+            <tr class="border-b border-border">
+              <td class="py-2 pr-4 font-medium">DIY ready-mix delivery</td>
+              <td class="py-2 pr-4">$125–$180 / yd³ + your labor</td>
+              <td class="py-2">Slabs 100–400 sq ft with helpers lined up</td>
+            </tr>
+            <tr>
+              <td class="py-2 pr-4 font-medium">Professional install</td>
+              <td class="py-2 pr-4">$6–$12 / sq ft all-in</td>
+              <td class="py-2">Driveways, garage floors, structural slabs</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="mt-6 text-lg font-bold">Hidden costs to budget for</h3>
+      <ul class="mt-2 flex list-disc flex-col gap-1.5 pl-5 text-muted-foreground leading-relaxed">
+        <li>Gravel base: 4 inches of compacted stone adds $40–$80 per 100 sq ft.</li>
+        <li>Forms and stakes: about $50–$100 in lumber for a typical patio.</li>
+        <li>Reinforcement: wire remesh or rebar adds $0.30–$0.75 per sq ft.</li>
+        <li>Tool rental: mixer ($60–$90/day) and power trowel for large slabs.</li>
+      </ul>
+    </section>
+
+    <AffiliateList />
+
+    <AdSlot />
+
+    <Faq items={faqItems} />
+  </main>
+</BaseLayout>

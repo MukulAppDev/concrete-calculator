@@ -1,0 +1,22 @@
+---
+// CLS-safe ad placeholder with reserved dimensions.
+// Replace inner content with your AdSense / ad network snippet after approval.
+interface Props {
+  format?: 'leaderboard' | 'rectangle'
+  label?: string
+}
+const { format = 'rectangle', label = 'Advertisement' } = Astro.props
+const sizes = {
+  leaderboard: 'min-h-[90px] md:min-h-[90px]',
+  rectangle: 'min-h-[250px]',
+}
+---
+
+<div
+  class={`mx-auto my-6 flex w-full max-w-3xl items-center justify-center rounded-md border border-dashed border-border bg-muted/50 ${sizes[format]}`}
+  role="complementary"
+  aria-label={label}
+  data-ad-slot={format}
+>
+  <span class="text-xs uppercase tracking-widest text-muted-foreground">{label}</span>
+</div>

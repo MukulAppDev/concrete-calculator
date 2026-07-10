@@ -1,0 +1,60 @@
+@import 'tailwindcss';
+/* Self-hosted variable font: one same-origin woff2, no third-party render-blocking request */
+@import '@fontsource-variable/archivo';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Archivo Variable', system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', monospace;
+
+  --color-background: #faf7f2;
+  --color-foreground: #1a1815;
+  --color-card: #ffffff;
+  --color-card-foreground: #1a1815;
+  --color-primary: #d94f26;
+  --color-primary-foreground: #ffffff;
+  --color-muted: #efe9e0;
+  --color-muted-foreground: #6b645a;
+  --color-border: #ddd5c8;
+  --color-accent: #1a1815;
+  --color-accent-foreground: #faf7f2;
+
+  --radius: 0.375rem;
+}
+
+.dark {
+  --color-background: #181512;
+  --color-foreground: #f2ede5;
+  --color-card: #221e1a;
+  --color-card-foreground: #f2ede5;
+  --color-primary: #e8663a;
+  --color-primary-foreground: #ffffff;
+  --color-muted: #2c2721;
+  --color-muted-foreground: #a89f92;
+  --color-border: #3a342c;
+  --color-accent: #f2ede5;
+  --color-accent-foreground: #181512;
+}
+
+html {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Remove number input spinners for cleaner mobile UI */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

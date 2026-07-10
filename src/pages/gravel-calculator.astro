@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Calculator from '../components/Calculator.astro'
+import AdSlot from '../components/AdSlot.astro'
+import Faq from '../components/Faq.astro'
+import AffiliateList from '../components/AffiliateList.astro'
+import { faqSchema, calculatorSchema } from '../scripts/schema.js'
+
+const title = 'Gravel Calculator — Cubic Yards & Tons for Driveways and Bases'
+const description =
+  'Free gravel calculator: enter length, width, and depth to get cubic yards and tons of gravel needed for driveways, patios, and concrete bases — with estimated cost per ton.'
+
+const faqItems = [
+  {
+    q: 'How many tons of gravel are in a cubic yard?',
+    a: 'Compacted crushed stone weighs about 1.4 tons per cubic yard. Loose, dry gravel is slightly lighter at around 1.25 tons per cubic yard. Suppliers usually sell by the ton, so this calculator converts for you.',
+  },
+  {
+    q: 'How deep should gravel be under a concrete slab?',
+    a: 'A 4-inch compacted gravel base is standard under patios and walkways. Driveways and garage slabs typically need 4–6 inches. Compact the gravel in 2-inch lifts for best results.',
+  },
+  {
+    q: 'How much gravel do I need for a driveway?',
+    a: 'A typical single-car driveway (10 × 40 ft) with 4 inches of gravel needs about 4.9 cubic yards, or roughly 7 tons. Most gravel driveways use two or three layers of different stone sizes totaling 8–12 inches.',
+  },
+  {
+    q: 'What size gravel is best under concrete?',
+    a: '¾-inch crushed stone (often called #57 stone or road base) is the most common choice. It compacts well, drains freely, and provides a stable, level surface for the pour.',
+  },
+  {
+    q: 'How much does a ton of gravel cost?',
+    a: 'Crushed stone typically runs $30–$60 per ton picked up, depending on your region and stone type. Delivery usually adds a flat fee of $50–$100. Edit the price field in the calculator to match your local quote.',
+  },
+]
+
+const jsonLd = [
+  calculatorSchema('Gravel Calculator', description, 'https://concretecalc.example.com/gravel-calculator'),
+  faqSchema(faqItems),
+]
+---
+
+<BaseLayout title={title} description={description} canonicalPath="/gravel-calculator" jsonLd={jsonLd}>
+  <main>
+    <div class="mx-auto max-w-5xl px-4 pt-8 pb-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-balance md:text-4xl">Gravel Calculator</h1>
+      <p class="mt-2 max-w-2xl text-muted-foreground leading-relaxed text-pretty">
+        Work out how many cubic yards and tons of gravel you need for a driveway, patio base, or French
+        drain. Enter your area and depth — the calculator handles the unit conversions and tonnage.
+      </p>
+    </div>
+
+    <Calculator defaultShape="gravel" />
+
+    <AdSlot format="leaderboard" />
+
+    <section class="mx-auto mt-8 w-full max-w-3xl px-4">
+      <h2 class="text-2xl font-bold tracking-tight text-balance">Gravel weights by material</h2>
+      <p class="mt-3 text-muted-foreground leading-relaxed">
+        Different aggregates have different densities, so tonnage varies by material. This calculator uses
+        1.4 tons per cubic yard — a safe figure for compacted crushed stone. Approximate weights:
+      </p>
+      <div class="mt-3 overflow-x-auto">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-border text-left text-muted-foreground">
+              <th scope="col" class="py-2 pr-4 font-semibold">Material</th>
+              <th scope="col" class="py-2 font-semibold">Tons per cubic yard</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-border"><td class="py-2 pr-4">Crushed stone (#57)</td><td class="py-2">1.4</td></tr>
+            <tr class="border-b border-border"><td class="py-2 pr-4">Pea gravel</td><td class="py-2">1.3</td></tr>
+            <tr class="border-b border-border"><td class="py-2 pr-4">Road base / crusher run</td><td class="py-2">1.5</td></tr>
+            <tr class="border-b border-border"><td class="py-2 pr-4">Sand</td><td class="py-2">1.35</td></tr>
+            <tr><td class="py-2 pr-4">River rock</td><td class="py-2">1.3</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="mt-6 text-lg font-bold">Ordering tips</h3>
+      <ul class="mt-2 flex list-disc flex-col gap-1.5 pl-5 text-muted-foreground leading-relaxed">
+        <li>Order 5–10% extra — gravel settles and compacts once placed.</li>
+        <li>Ask for the delivered price per ton; delivery fees often beat multiple pickup trips.</li>
+        <li>A full-size pickup safely hauls about half a ton (roughly ⅓ cubic yard) per trip.</li>
+      </ul>
+    </section>
+
+    <AffiliateList
+      items={[
+        { name: 'Plate Compactor (rental)', note: 'Essential for a stable, settled base', href: '#' },
+        { name: 'Landscape Fabric', note: 'Keeps gravel from sinking into soil', href: '#' },
+        { name: 'Steel Landscape Rake', note: 'For spreading and leveling stone', href: '#' },
+        { name: 'Wheelbarrow (6 cu ft)', note: 'Moving tons of stone, one load at a time', href: '#' },
+      ]}
+    />
+
+    <AdSlot />
+
+    <Faq items={faqItems} />
+  </main>
+</BaseLayout>
