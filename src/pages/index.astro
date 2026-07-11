@@ -4,16 +4,24 @@ import Calculator from '../components/Calculator.astro'
 import AdSlot from '../components/AdSlot.astro'
 import Faq from '../components/Faq.astro'
 import AffiliateList from '../components/AffiliateList.astro'
-import { faqSchema, calculatorSchema } from '../scripts/schema.js'
+import { faqSchema, calculatorSchema, howToSchema } from '../scripts/schema.js'
 
-const title = 'Concrete Calculator — Cubic Yards, Bags & Cost Estimator'
+const title = 'Concrete Calculator — Cubic Yards, Bags & Cost (Free)'
 const description =
-  'Free concrete calculator for slabs, footings, columns, and stairs. Get cubic yards, 60 lb and 80 lb bag counts, and estimated cost instantly. Works great on your phone at the store.'
+  'Free concrete calculator: calculate cubic yards, cubic feet, 60 lb and 80 lb bags, and cost for slabs, footings, columns, stairs, and gravel. Add waste instantly.'
 
 const faqItems = [
   {
-    q: 'How do I calculate how much concrete I need?',
+    q: 'How much concrete do I need?',
     a: 'Multiply length × width × thickness (all in feet) to get cubic feet, then divide by 27 to get cubic yards. This calculator does the math for you, converts inches automatically, and adds a waste factor so you do not come up short mid-pour.',
+  },
+  {
+    q: 'How many yards of concrete do I need for my slab?',
+    a: 'Concrete is ordered in cubic yards. For a slab: length (ft) × width (ft) × thickness (ft) ÷ 27 = cubic yards. A 10 × 10 ft slab at 4 inches thick needs 1.23 cubic yards before waste — enter your dimensions above for an exact figure.',
+  },
+  {
+    q: 'How much concrete mix do I need per bag?',
+    a: 'One 80 lb bag of concrete mix yields 0.60 cubic feet, one 60 lb bag yields 0.45 cubic feet, and one 40 lb bag yields 0.30 cubic feet. The calculator converts your total volume into exact bag counts, rounded up.',
   },
   {
     q: 'How many cubic feet are in a cubic yard of concrete?',
@@ -34,18 +42,27 @@ const faqItems = [
 ]
 
 const jsonLd = [
-  calculatorSchema('Concrete Calculator', description, 'https://concretecalc.example.com/'),
+  calculatorSchema('Concrete Calculator — Cubic Yards, Bags & Cost', description, 'https://concreteyardscalculator.com/'),
   faqSchema(faqItems),
+  howToSchema('How to calculate how much concrete you need', description, [
+    'Select your project shape: slab, footing, column, stairs, or gravel base.',
+    'Enter each project dimension and choose feet or inches.',
+    'Choose a waste factor between 5% and 15% based on site conditions.',
+    'Review the calculated cubic yards, cubic feet, bag counts, and estimated material cost.',
+    'Confirm the quantity and delivery requirements with your concrete supplier before ordering.',
+  ]),
 ]
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/" jsonLd={jsonLd}>
   <main>
     <div class="mx-auto max-w-5xl px-4 pt-8 pb-6">
-      <h1 class="text-3xl font-extrabold tracking-tight text-balance md:text-4xl">Concrete Calculator</h1>
+      <h1 class="text-3xl font-extrabold tracking-tight text-balance md:text-4xl">
+        Concrete Calculator — Yards, Bags & Cost
+      </h1>
       <p class="mt-2 max-w-2xl text-muted-foreground leading-relaxed text-pretty">
-        Figure out exactly how much concrete you need — in cubic yards, cubic feet, and bags — for slabs,
-        footings, columns, and stairs. Free, instant, and built for use on your phone in the store aisle.
+        Calculate exactly how much concrete you need in cubic yards, cubic feet, 60 lb or 80 lb bags, and
+        estimated cost. Works for slabs, footings, columns, stairs, and gravel bases — free and instant.
       </p>
     </div>
 
@@ -82,6 +99,16 @@ const jsonLd = [
         </table>
       </div>
       <p class="mt-2 text-xs text-muted-foreground">Values include no waste factor — add 5–10% when ordering.</p>
+
+      <h3 class="mt-8 text-lg font-bold">Concrete calculator guides</h3>
+      <div class="mt-3 grid gap-3 sm:grid-cols-2">
+        <a href="/how-many-bags-of-concrete" class="rounded-lg border border-border bg-card p-4 font-semibold hover:border-primary">Concrete bag calculator</a>
+        <a href="/concrete-slab-cost" class="rounded-lg border border-border bg-card p-4 font-semibold hover:border-primary">Concrete cost calculator</a>
+        <a href="/sakrete-concrete-calculator" class="rounded-lg border border-border bg-card p-4 font-semibold hover:border-primary">Sakrete calculator</a>
+        <a href="/quikrete-concrete-calculator" class="rounded-lg border border-border bg-card p-4 font-semibold hover:border-primary">Quikrete calculator</a>
+        <a href="/sonotube-concrete-calculator" class="rounded-lg border border-border bg-card p-4 font-semibold hover:border-primary">Sonotube calculator</a>
+        <a href="/gravel-under-concrete-slab" class="rounded-lg border border-border bg-card p-4 font-semibold hover:border-primary">Gravel under slab calculator</a>
+      </div>
     </section>
 
     <AffiliateList />

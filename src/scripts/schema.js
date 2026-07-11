@@ -24,3 +24,19 @@ export function calculatorSchema(name, description, url) {
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   }
 }
+
+/** Build HowTo JSON-LD from an array of step strings. */
+export function howToSchema(name, description, steps) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    step: steps.map((text, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: `Step ${index + 1}`,
+      text,
+    })),
+  }
+}

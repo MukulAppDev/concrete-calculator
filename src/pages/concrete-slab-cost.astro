@@ -4,11 +4,11 @@ import Calculator from '../components/Calculator.astro'
 import AdSlot from '../components/AdSlot.astro'
 import Faq from '../components/Faq.astro'
 import AffiliateList from '../components/AffiliateList.astro'
-import { faqSchema, calculatorSchema } from '../scripts/schema.js'
+import { faqSchema, calculatorSchema, howToSchema } from '../scripts/schema.js'
 
-const title = 'Concrete Slab Cost Calculator — DIY Bags vs Ready-Mix Prices'
+const title = 'Concrete Cost Calculator — Slab, Bags & Ready-Mix Prices'
 const description =
-  'Estimate the cost of a concrete slab: enter dimensions and your local bag price to see DIY material cost instantly, plus typical ready-mix and professional installation prices per square foot.'
+  'Free concrete cost calculator for slabs. Enter dimensions and local bag price to compare DIY bagged concrete, ready-mix cost per cubic yard, and professional cost per square foot.'
 
 const faqItems = [
   {
@@ -34,18 +34,25 @@ const faqItems = [
 ]
 
 const jsonLd = [
-  calculatorSchema('Concrete Slab Cost Calculator', description, 'https://concretecalc.example.com/concrete-slab-cost'),
+  calculatorSchema('Concrete Cost Calculator', description, 'https://concreteyardscalculator.com/concrete-slab-cost'),
   faqSchema(faqItems),
+  howToSchema('How to estimate concrete slab cost', description, [
+    'Enter the slab length, width, and thickness.',
+    'Choose a waste factor based on the base and form conditions.',
+    'Enter the current local price for a concrete bag.',
+    'Review the calculated bags, cubic yards, and bagged-material cost.',
+    'Compare the result with local ready-mix delivery and contractor quotes.',
+  ]),
 ]
 ---
 
 <BaseLayout title={title} description={description} canonicalPath="/concrete-slab-cost" jsonLd={jsonLd}>
   <main>
     <div class="mx-auto max-w-5xl px-4 pt-8 pb-6">
-      <h1 class="text-3xl font-extrabold tracking-tight text-balance md:text-4xl">Concrete Slab Cost Calculator</h1>
+      <h1 class="text-3xl font-extrabold tracking-tight text-balance md:text-4xl">Concrete Cost Calculator</h1>
       <p class="mt-2 max-w-2xl text-muted-foreground leading-relaxed text-pretty">
-        Enter your slab dimensions and local bag price to see your DIY material cost instantly. Then compare
-        against typical ready-mix and professional installation prices below.
+        Estimate concrete slab cost from your dimensions and local bag price. Compare bagged concrete with
+        typical ready-mix prices per cubic yard and professional installation prices per square foot.
       </p>
     </div>
 

@@ -31,10 +31,14 @@ const faqItems = [
     q: 'How much area does one bag of concrete cover?',
     a: 'At 4 inches thick, one 80 lb bag covers about 1.8 square feet and one 60 lb bag covers about 1.35 square feet.',
   },
+  {
+    q: 'Does this work as a Sakrete or Quikrete calculator?',
+    a: 'Yes. Sakrete and Quikrete concrete mix both follow the standard yields — 0.60 cubic feet per 80 lb bag and 0.45 cubic feet per 60 lb bag — so the bag counts above apply to either brand. Always confirm the yield printed on your specific bag.',
+  },
 ]
 
 const jsonLd = [
-  calculatorSchema('Concrete Bag Calculator', description, 'https://concretecalc.example.com/how-many-bags-of-concrete'),
+  calculatorSchema('Concrete Bag Calculator', description, 'https://concreteyardscalculator.com/how-many-bags-of-concrete'),
   faqSchema(faqItems),
 ]
 ---

@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Calculator from '../components/Calculator.astro'
+import AdSlot from '../components/AdSlot.astro'
+import Faq from '../components/Faq.astro'
+import AffiliateList from '../components/AffiliateList.astro'
+import { faqSchema, calculatorSchema, howToSchema } from '../scripts/schema.js'
+
+const title = 'Quikrete Concrete Calculator — 40, 60 & 80 lb Bags'
+const description = 'Free Quikrete concrete calculator. Calculate 40 lb, 60 lb, and 80 lb bags for slabs, footings, post holes, and columns, including waste and estimated cost.'
+const faqItems = [
+  { q: 'How many bags of Quikrete do I need?', a: 'Enter your dimensions above and choose the project shape. The calculator returns cubic feet, cubic yards, and rounded-up 60 lb and 80 lb bag counts with your selected waste factor.' },
+  { q: 'How much does an 80 lb bag of Quikrete cover?', a: 'An 80 lb bag typically yields 0.60 cubic feet. At 4 inches thick, it covers approximately 1.8 square feet.' },
+  { q: 'How much does a 60 lb bag of Quikrete cover?', a: 'A 60 lb bag typically yields 0.45 cubic feet. At 4 inches thick, it covers approximately 1.35 square feet.' },
+  { q: 'How many 80 lb bags of Quikrete make one yard?', a: 'Approximately 45 80 lb bags make one cubic yard because 27 cubic feet divided by 0.60 cubic feet per bag equals 45. Add 5–15% for waste.' },
+  { q: 'How much Quikrete do I need for a post hole?', a: 'Use the Column tab and enter the hole diameter and depth. The calculator treats the hole as a cylinder and calculates the required bag quantity.' },
+]
+const jsonLd = [
+  calculatorSchema('Quikrete Concrete Calculator', description, 'https://concreteyardscalculator.com/quikrete-concrete-calculator'),
+  faqSchema(faqItems),
+  howToSchema('How to calculate Quikrete bags', description, ['Choose the project shape.', 'Enter the project dimensions in feet or inches.', 'Set the appropriate waste allowance.', 'Review the calculated bag totals and cost.', 'Check the exact yield on your Quikrete product label before purchase.']),
+]
+---
+<BaseLayout title={title} description={description} canonicalPath="/quikrete-concrete-calculator" jsonLd={jsonLd}>
+  <main>
+    <div class="mx-auto max-w-5xl px-4 pt-8 pb-6">
+      <p class="text-sm font-semibold text-primary">Brand bag calculator</p>
+      <h1 class="mt-1 text-3xl font-extrabold tracking-tight text-balance md:text-4xl">Quikrete Concrete Calculator</h1>
+      <p class="mt-2 max-w-2xl text-muted-foreground leading-relaxed text-pretty">Estimate Quikrete bags for slabs, footings, post holes, columns, and stairs. Results include cubic yards, 60 lb and 80 lb bags, waste, and editable cost.</p>
+    </div>
+    <Calculator defaultShape="slab" />
+    <AdSlot format="leaderboard" />
+    <section class="mx-auto mt-8 w-full max-w-3xl px-4">
+      <h2 class="text-2xl font-bold tracking-tight">Quikrete bag yield chart</h2>
+      <p class="mt-3 text-muted-foreground leading-relaxed">These are typical yields for standard concrete mix. Fast-setting and specialty products can differ, so use the package yield when it is available.</p>
+      <div class="mt-4 overflow-x-auto"><table class="w-full border-collapse text-sm"><thead><tr class="border-b border-border text-left text-muted-foreground"><th class="py-2 pr-4">Bag size</th><th class="py-2 pr-4">Typical yield</th><th class="py-2">Coverage at 4″</th></tr></thead><tbody><tr class="border-b border-border"><td class="py-2 pr-4">40 lb</td><td class="py-2 pr-4">0.30 ft³</td><td class="py-2">0.9 sq ft</td></tr><tr class="border-b border-border"><td class="py-2 pr-4">60 lb</td><td class="py-2 pr-4">0.45 ft³</td><td class="py-2">1.35 sq ft</td></tr><tr><td class="py-2 pr-4">80 lb</td><td class="py-2 pr-4">0.60 ft³</td><td class="py-2">1.8 sq ft</td></tr></tbody></table></div>
+      <p class="mt-6 text-muted-foreground leading-relaxed">Also compare quantities with our <a href="/sakrete-concrete-calculator" class="font-semibold text-primary underline underline-offset-4">Sakrete calculator</a> and <a href="/concrete-slab-cost" class="font-semibold text-primary underline underline-offset-4">concrete cost calculator</a>.</p>
+    </section>
+    <AffiliateList />
+    <AdSlot />
+    <Faq items={faqItems} />
+  </main>
+</BaseLayout>

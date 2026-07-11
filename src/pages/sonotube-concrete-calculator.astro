@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Calculator from '../components/Calculator.astro'
+import AdSlot from '../components/AdSlot.astro'
+import Faq from '../components/Faq.astro'
+import AffiliateList from '../components/AffiliateList.astro'
+import { faqSchema, calculatorSchema } from '../scripts/schema.js'
+
+const title = 'Sonotube Concrete Calculator — Bags & Yards per Tube'
+const description =
+  'Free Sonotube concrete calculator. Enter tube diameter, height, and quantity to get cubic yards and exact 60 lb / 80 lb bag counts per concrete form tube — with cost estimate.'
+
+const faqItems = [
+  {
+    q: 'How much concrete does a Sonotube take?',
+    a: 'Volume is π × radius² × height. A 12-inch diameter Sonotube needs about 0.785 cubic feet per foot of height — so a 4-foot tube takes 3.14 cubic feet, or about 6 × 80 lb bags. Enter your size above for exact numbers.',
+  },
+  {
+    q: 'How many bags of concrete for an 8-inch Sonotube?',
+    a: 'An 8-inch tube holds about 0.35 cubic feet per foot of height. A typical 4-foot deck footing needs 1.4 cubic feet — about 3 × 80 lb bags or 4 × 60 lb bags, rounded up.',
+  },
+  {
+    q: 'How many bags of concrete for a 10-inch Sonotube?',
+    a: 'A 10-inch tube holds about 0.545 cubic feet per foot. A 4-foot tube needs 2.2 cubic feet — about 4 × 80 lb bags or 5 × 60 lb bags.',
+  },
+  {
+    q: 'What size Sonotube do I need for a deck post?',
+    a: 'A common rule is a tube diameter three times the post width: 12-inch tubes for 4×4 posts and 18-inch tubes for 6×6 posts. Local code and frost depth determine the required footing depth — check with your building department.',
+  },
+  {
+    q: 'Should I mix bags or order ready-mix for Sonotubes?',
+    a: 'For a handful of tubes, bags are the practical choice — each 12″ × 4 ft tube is only about 6 bags. If you are pouring 10 or more large tubes (approaching a cubic yard total), price out a short-load ready-mix delivery.',
+  },
+]
+
+const jsonLd = [
+  calculatorSchema(
+    'Sonotube Concrete Calculator',
+    description,
+    'https://concreteyardscalculator.com/sonotube-concrete-calculator'
+  ),
+  faqSchema(faqItems),
+]
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath="/sonotube-concrete-calculator"
+  jsonLd={jsonLd}
+>
+  <main>
+    <div class="mx-auto max-w-5xl px-4 pt-8 pb-6">
+      <h1 class="text-3xl font-extrabold tracking-tight text-balance md:text-4xl">
+        Sonotube Concrete Calculator
+      </h1>
+      <p class="mt-2 max-w-2xl text-muted-foreground leading-relaxed text-pretty">
+        Work out how much concrete you need for Sonotube and other round form tubes — deck footings, fence
+        posts, and pier foundations. Enter the diameter, height, and number of tubes to get yards and bag
+        counts instantly.
+      </p>
+    </div>
+
+    <Calculator defaultShape="column" />
+
+    <AdSlot format="leaderboard" />
+
+    <section class="mx-auto mt-8 w-full max-w-3xl px-4">
+      <h2 class="text-2xl font-bold tracking-tight text-balance">Quick reference: bags per Sonotube (4 ft depth)</h2>
+      <p class="mt-3 text-muted-foreground leading-relaxed">
+        The table below shows concrete needed for common tube diameters at a typical 4-foot frost-depth
+        footing, rounded up to whole bags. No waste factor included — tubes waste very little, but 5% is a
+        safe margin.
+      </p>
+      <div class="mt-3 overflow-x-auto">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-border text-left text-muted-foreground">
+              <th scope="col" class="py-2 pr-4 font-semibold">Tube diameter</th>
+              <th scope="col" class="py-2 pr-4 font-semibold">Cubic feet</th>
+              <th scope="col" class="py-2 pr-4 font-semibold">80 lb bags</th>
+              <th scope="col" class="py-2 font-semibold">60 lb bags</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-border"><td class="py-2 pr-4">8 in</td><td class="py-2 pr-4">1.40</td><td class="py-2 pr-4">3</td><td class="py-2">4</td></tr>
+            <tr class="border-b border-border"><td class="py-2 pr-4">10 in</td><td class="py-2 pr-4">2.18</td><td class="py-2 pr-4">4</td><td class="py-2">5</td></tr>
+            <tr class="border-b border-border"><td class="py-2 pr-4">12 in</td><td class="py-2 pr-4">3.14</td><td class="py-2 pr-4">6</td><td class="py-2">7</td></tr>
+            <tr class="border-b border-border"><td class="py-2 pr-4">16 in</td><td class="py-2 pr-4">5.59</td><td class="py-2 pr-4">10</td><td class="py-2">13</td></tr>
+            <tr><td class="py-2 pr-4">18 in</td><td class="py-2 pr-4">7.07</td><td class="py-2 pr-4">12</td><td class="py-2">16</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="mt-6 text-lg font-bold">Pouring tips</h3>
+      <ul class="mt-2 flex list-disc flex-col gap-1.5 pl-5 text-muted-foreground leading-relaxed">
+        <li>Brace tubes plumb before pouring — wet concrete is heavy and will shift an unbraced tube.</li>
+        <li>Fill in one continuous pour and rod or vibrate to remove air pockets.</li>
+        <li>Set post anchors while the concrete is still wet, and check alignment twice.</li>
+        <li>Below-grade tube sections can stay in the ground; strip exposed cardboard after curing.</li>
+      </ul>
+    </section>
+
+    <AffiliateList
+      items={[
+        { name: 'Post Hole Digger', note: 'For excavating tube holes to depth', href: '#' },
+        { name: 'Post Level', note: 'Keeps tubes and posts plumb while bracing', href: '#' },
+        { name: 'Galvanized Post Base Anchor', note: 'Set in wet concrete for deck posts', href: '#' },
+        { name: 'Concrete Mixing Tub', note: 'Mix a few bags at a time near the hole', href: '#' },
+      ]}
+    />
+
+    <AdSlot />
+
+    <Faq items={faqItems} />
+  </main>
+</BaseLayout>

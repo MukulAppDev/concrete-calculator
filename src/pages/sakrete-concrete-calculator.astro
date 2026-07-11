@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import Calculator from '../components/Calculator.astro'
+import AdSlot from '../components/AdSlot.astro'
+import Faq from '../components/Faq.astro'
+import AffiliateList from '../components/AffiliateList.astro'
+import { faqSchema, calculatorSchema, howToSchema } from '../scripts/schema.js'
+
+const title = 'Sakrete Concrete Calculator — 40, 60 & 80 lb Bags'
+const description = 'Free Sakrete concrete calculator. Enter your slab, footing, or post dimensions to calculate 40 lb, 60 lb, and 80 lb bag quantities, cubic yards, waste, and cost.'
+const faqItems = [
+  { q: 'How many bags of Sakrete do I need?', a: 'Enter your project dimensions in the calculator above. It converts the project volume to 60 lb and 80 lb bag counts and rounds up so you do not run short. For 40 lb bags, divide total cubic feet by approximately 0.30.' },
+  { q: 'How much concrete does an 80 lb bag of Sakrete make?', a: 'A typical 80 lb bag of Sakrete concrete mix yields about 0.60 cubic feet. That equals approximately 45 bags per cubic yard before waste.' },
+  { q: 'How much concrete does a 60 lb bag of Sakrete make?', a: 'A typical 60 lb bag yields about 0.45 cubic feet, or approximately 60 bags per cubic yard before waste.' },
+  { q: 'How many Sakrete bags are needed for a 10×10 slab?', a: 'A 10 × 10 ft slab at 4 inches thick needs approximately 56 80 lb bags before waste. With a 10% waste allowance, plan for about 62 bags.' },
+  { q: 'Is Sakrete the same as ready-mix concrete?', a: 'Sakrete is dry, preblended bagged concrete that you mix with water on site. Ready-mix is delivered wet by truck and is usually more practical for pours larger than about one cubic yard.' },
+]
+const jsonLd = [
+  calculatorSchema('Sakrete Concrete Calculator', description, 'https://concreteyardscalculator.com/sakrete-concrete-calculator'),
+  faqSchema(faqItems),
+  howToSchema('How to calculate Sakrete bags', description, ['Select the project shape.', 'Enter all project dimensions.', 'Set a waste allowance, typically 10%.', 'Review the calculated 60 lb and 80 lb bag counts.', 'Confirm the yield printed on the Sakrete product bag before buying.']),
+]
+---
+<BaseLayout title={title} description={description} canonicalPath="/sakrete-concrete-calculator" jsonLd={jsonLd}>
+  <main>
+    <div class="mx-auto max-w-5xl px-4 pt-8 pb-6">
+      <p class="text-sm font-semibold text-primary">Brand bag calculator</p>
+      <h1 class="mt-1 text-3xl font-extrabold tracking-tight text-balance md:text-4xl">Sakrete Concrete Calculator</h1>
+      <p class="mt-2 max-w-2xl text-muted-foreground leading-relaxed text-pretty">Calculate how many bags of Sakrete you need for a slab, footing, column, post hole, or stairs. Adjust the bag price for an instant material-cost estimate.</p>
+    </div>
+    <Calculator defaultShape="slab" />
+    <AdSlot format="leaderboard" />
+    <section class="mx-auto mt-8 w-full max-w-3xl px-4">
+      <h2 class="text-2xl font-bold tracking-tight">Sakrete bag yield chart</h2>
+      <p class="mt-3 text-muted-foreground leading-relaxed">Yields can vary slightly by product line. Confirm the package label, especially for fast-setting, high-strength, or specialty mixes.</p>
+      <div class="mt-4 overflow-x-auto"><table class="w-full border-collapse text-sm"><thead><tr class="border-b border-border text-left text-muted-foreground"><th class="py-2 pr-4">Bag size</th><th class="py-2 pr-4">Typical yield</th><th class="py-2">Bags per yd³</th></tr></thead><tbody><tr class="border-b border-border"><td class="py-2 pr-4">40 lb</td><td class="py-2 pr-4">0.30 ft³</td><td class="py-2">90</td></tr><tr class="border-b border-border"><td class="py-2 pr-4">60 lb</td><td class="py-2 pr-4">0.45 ft³</td><td class="py-2">60</td></tr><tr><td class="py-2 pr-4">80 lb</td><td class="py-2 pr-4">0.60 ft³</td><td class="py-2">45</td></tr></tbody></table></div>
+      <p class="mt-6 text-muted-foreground leading-relaxed">Comparing brands? Use our <a href="/quikrete-concrete-calculator" class="font-semibold text-primary underline underline-offset-4">Quikrete calculator</a>, or see the general <a href="/how-many-bags-of-concrete" class="font-semibold text-primary underline underline-offset-4">concrete bag guide</a>.</p>
+    </section>
+    <AffiliateList />
+    <AdSlot />
+    <Faq items={faqItems} />
+  </main>
+</BaseLayout>

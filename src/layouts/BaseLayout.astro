@@ -10,14 +10,18 @@ interface Props {
 }
 
 const { title, description, canonicalPath, jsonLd = [] } = Astro.props
-const site = Astro.site ?? new URL('https://concretecalc.example.com')
+const site = Astro.site ?? new URL('https://concreteyardscalculator.com')
 const canonical = new URL(canonicalPath, site).href
 
 const navLinks = [
   { href: '/', label: 'Concrete Calculator' },
   { href: '/how-many-bags-of-concrete', label: 'Bags of Concrete' },
   { href: '/gravel-calculator', label: 'Gravel Calculator' },
-  { href: '/concrete-slab-cost', label: 'Slab Cost' },
+  { href: '/gravel-under-concrete-slab', label: 'Gravel Under Slab' },
+  { href: '/sonotube-concrete-calculator', label: 'Sonotube' },
+  { href: '/sakrete-concrete-calculator', label: 'Sakrete' },
+  { href: '/quikrete-concrete-calculator', label: 'Quikrete' },
+  { href: '/concrete-slab-cost', label: 'Cost' },
 ]
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/'
 ---
@@ -62,12 +66,12 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/'
   <body class="min-h-screen bg-background text-foreground font-sans">
     <header class="border-b border-border bg-card">
       <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
-        <a href="/" class="flex items-center gap-2 font-bold tracking-tight text-lg" aria-label="ConcreteCalc home">
+        <a href="/" class="flex items-center gap-2 font-bold tracking-tight text-lg" aria-label="Concrete Yards Calculator home">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <rect x="2" y="10" width="20" height="10" rx="1" fill="var(--color-primary)"></rect>
             <path d="M4 10L8 4h8l4 6" stroke="var(--color-foreground)" stroke-width="2" stroke-linejoin="round" fill="none"></path>
           </svg>
-          ConcreteCalc
+          Concrete Yards Calculator
         </a>
         <button
           id="theme-toggle"

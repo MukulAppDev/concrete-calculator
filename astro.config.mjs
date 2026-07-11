@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap'
 
 export default defineConfig({
   output: 'static',
-  site: 'https://concretecalc.example.com',
+  site: 'https://concreteyardscalculator.com',
   integrations: [sitemap()],
   // Prefetch calculator pages on hover/tap for instant subsequent navigation
   prefetch: {
