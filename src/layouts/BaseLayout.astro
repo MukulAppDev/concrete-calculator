@@ -62,8 +62,17 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/'
         } catch (e) {}
       })()
     </script>
+    <!-- Google tag (gtag.js) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-8L6QKS8X6X"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8L6QKS8X6X');
+    </script>
   </head>
-  <body class="min-h-screen bg-background text-foreground font-sans">
+  <body class="flex min-h-screen flex-col bg-background text-foreground font-sans">
     <header class="border-b border-border bg-card">
       <div class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
         <a href="/" class="flex items-center gap-2 font-bold tracking-tight text-lg" aria-label="Concrete Yards Calculator home">
@@ -111,7 +120,9 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/'
       </nav>
     </header>
 
-    <slot />
+    <div class="flex-1">
+      <slot />
+    </div>
 
     <footer class="mt-16 border-t border-border bg-card">
       <div class="mx-auto flex max-w-5xl flex-col gap-4 px-4 py-8 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">

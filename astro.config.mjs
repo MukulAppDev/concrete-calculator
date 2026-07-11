@@ -1,11 +1,9 @@
 import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
-import sitemap from '@astrojs/sitemap'
 
 export default defineConfig({
   output: 'static',
   site: 'https://concreteyardscalculator.com',
-  integrations: [sitemap()],
   // Prefetch calculator pages on hover/tap for instant subsequent navigation
   prefetch: {
     prefetchAll: true,
