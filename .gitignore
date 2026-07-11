@@ -17,3 +17,9 @@ node_modules
 # Astro build and cache
 .astro/
 dist/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
